@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health Reminder App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e6f2f5;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f8fcfc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 90%;
+    }
+
+    .header-section {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      background: linear-gradient(to right, #b3e0ff, #e6f7ff);
+      padding: 20px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .text-section {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .text-section h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #000;
+    }
+
+    .text-section p {
+      margin: 0;
+      color: #444;
+      font-size: 14px;
+    }
+    
+    .icon-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .heart-icon {
+      height: 30px;
+    }
+    
+    .profile-icon {
+      height: 32px;
+    }
+    
+    .heart-logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .settings-icon {
+      height: 40px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #b3d9ff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .nav-button {
+      background: none;
+      border: none;
+    }
+
+    .nav-button img {
+      height: 28px;
+    }
+
+    .greeting h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .greeting p {
+      margin: 2px 0 0;
+      font-size: 14px;
+    }
+
+    .icon {
+      font-size: 24px;
+    }
+
+    .search {
+      margin: 15px 0;
+      display: flex;
+    }
+
+    .search input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 5px 0 0 5px;
+      border: 1px solid #ccc;
+    }
+
+    .search button {
+      padding: 10px;
+      background: #4ecdc4;
+      border: none;
+      color: white;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+
+    .services {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+    }
+
+    .services button {
+      font-size: 24px;
+      padding: 10px;
+      background: #d3eaf2;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .reminders h3 {
+      margin-top: 20px;
+    }
+
+    .reminder-card {
+      background: #e0f7fa;
+      display: flex;
+      align-items: flex-start;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .reminder-card img {
+      width: 50px;
+      height: 50px;
+      margin-right: 18px;
+      border-radius: 8px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .details strong {
+    font-size: 1.1rem;
+    color: #222;
+  }
+
+    .details span {
+      color: #d62828;
+      font-size: 0.95rem;
+    }
+
+    .tags {
+      margin-top: 5px;
+    }
+
+    .tags span {
+      background: #b2dfdb;
+      padding: 5px 10px;
+      margin-right: 6px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="header-section">
+    <div class="text-section">
+      <h2>Good Morning!</h2>
+      <p>Users William</p>
+    </div>
+    <img src="Vector ai medis.png" alt="Heart Rate" class="heart-logo">
+    <img src="logo_animation_ai-removebg-preview (1).png" alt="Logo AI" id="app-logo" style="height: 40px;">
+    </div>
+
+    <div class="search">
+      <input type="text" placeholder="Search history here" id="searchInput" />
+      <button onclick="searchHistory()">🔍</button>
+    </div>
+
+    <div class="services">
+      <button onclick="openPillService()">💊</button>
+      <button onclick="openReminderService()">⏰</button>
+    </div>
+
+    <div class="reminders">
+      <h3>Reminder, Today</h3>
+
+      <div class="reminder-card">
+        <img src="paracetamol.jpg" alt="Pill" />
+        <div class="details">
+          <strong>Paracetamol</strong> <span>(09.00 am)</span>
+          <div class="tags">
+            <span>After Breakfast</span>
+            <span>After Dinner</span>
+          </div>
+          <button onclick="openEditReminder('Paracetamol')" style="margin-top: 5px;">✏️ Edit</button>
+        </div>
+      </div>
+
+      <div class="reminder-card">
+        <img src="antibiotik.png" alt="Medicine" />
+        <div class="details">
+          <strong>Antibiotik</strong> <span>(09.00 am)</span>
+          <div class="tags">
+            <span>After Breakfast</span>
+            <span>After Dinner</span>
+          </div>
+          <button onclick="openEditReminder('Paracetamol')" style="margin-top: 5px;">✏️ Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+     <div class="bottom-nav">
+  <button class="nav-button">
+    <img src="home.png" alt="Home">
+  </button>
+
+  <a href="profile.html" class="nav-button" style="display: flex; align-items: center;">
+    
+    <img src="profile.png" alt="Profile">
+  </a>
+</div>
+  
+  <script>
+    function searchHistory() {
+      const input = document.getElementById("searchInput").value;
+      alert("Searching for: " + input);
+    }
+
+    function openPillService() {
+      window.location.href = "pill.html";
+    }
+
+    function openReminderService() {
+      window.location.href = "medicinereminder.html";
+    }
+
+    function openEditReminder(reminderName) {
+    // Simpan data ke localStorage agar bisa diakses di halaman edit
+    localStorage.setItem("editingReminder", reminderName);
+    window.location.href = "editreminder.html";
+  }
+    
+    // Auto-reminder mockup on load
+    window.onload = () => {
+      const now = new Date();
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      if (hour === 9 && minute === 0) {
+        alert("Time to take Paracetamol and Antibiotik!");
+      }
+    };
+    function openChatbot() {
+    Chatbot.toggleChat();
+  }
+  </script>
+
+  <script type="module">
+  import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
+
+  Chatbot.init({
+    chatflowid: "1f2dbb5b-a5fd-4a8d-a031-b2f361f5c53b",
+    apiHost: "https://cloud.flowiseai.com"
+  });
+</script>
+</body>
+</html>

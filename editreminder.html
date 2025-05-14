@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paracetamol Schedule Editable Bio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-gradient-to-b from-[#c9e9f0] to-[#f7e9e9] px-6 py-8">
+  <div>
+    <!-- Back Button -->
+    <div class="flex items-center mb-8">
+      <button aria-label="Back" class="text-black text-2xl" onclick="history.back()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+
+    <!-- Image -->
+    <div class="flex justify-center mb-6">
+      <img
+        class="w-24 h-24"
+        src="https://storage.googleapis.com/a1aa/image/19b32329-5961-4783-049c-f74a788f3268.jpg"
+        alt="Illustration of a medicine bottle with a red cross on the label and a red cap"
+      />
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-2xl font-semibold text-[#4a4a4a] mb-3">Paracetamol</h1>
+
+    <!-- Bio Input -->
+    <textarea
+      id="bioInput"
+      aria-label="Editable bio or description"
+      placeholder="Enter bio or description here..."
+      class="w-full h-16 rounded-md bg-[#f0f4f5] px-4 py-2 mb-6 resize-none text-[#1a1a1a] text-base placeholder:text-gray-400"
+    ></textarea>
+
+    <!-- Time & Schedule -->
+    <p class="text-lg text-[#1a1a1a] mb-3">Time & Schedule</p>
+    <div class="flex gap-4 mb-10">
+      <button
+        id="btnBreakfast"
+        type="button"
+        onclick="selectTime('Breakfast')"
+        class="bg-[#b9e5f7] text-[#1a4f8b] font-semibold rounded-md px-4 py-2"
+      >
+        After Breakfast
+      </button>
+      <button
+        id="btnDinner"
+        type="button"
+        onclick="selectTime('Dinner')"
+        class="bg-[#8eaea3] text-[#1a3a33] font-normal rounded-md px-4 py-2"
+      >
+        After Dinner
+      </button>
+    </div>
+
+    <!-- Duration and Frequency -->
+    <div class="flex justify-between mb-6 flex-wrap gap-4">
+      <div>
+        <p class="font-semibold text-[#3a3a3a] mb-2">Duration</p>
+        <button
+          type="button"
+          disabled
+          class="flex items-center gap-2 border border-transparent rounded-md bg-[#f0f4f5] px-3 py-2 text-[#1a1a1a] text-base cursor-default"
+        >
+          <i class="far fa-calendar-alt text-xl"></i>
+          1 Month (4 weeks)
+          <i class="fas fa-chevron-down text-sm"></i>
+        </button>
+      </div>
+      <div>
+        <p class="font-semibold text-[#3a3a3a] mb-2">Frequency</p>
+        <button
+          type="button"
+          disabled
+          class="flex items-center gap-2 rounded-md bg-[#d3d9db] px-4 py-2 text-[#1a1a1a] text-base cursor-default"
+        >
+          <i class="far fa-clock text-lg"></i>
+          10.00
+        </button>
+      </div>
+    </div>
+
+    <!-- Ringtone -->
+    <div class="flex justify-between items-center bg-white rounded-md px-4 py-3 mb-10 shadow-sm">
+      <div class="flex items-center gap-2 text-black text-base">
+        <i class="far fa-bell text-xl"></i>
+        <span>Ringtone</span>
+      </div>
+      <div class="flex items-center gap-2 text-black text-base font-light">
+        <select
+          id="ringtoneSelect"
+          class="appearance-none bg-transparent focus:outline-none cursor-pointer"
+        >
+          <option value="Tictac" selected>Tictac</option>
+          <option value="Beep">Beep</option>
+          <option value="Chime">Chime</option>
+        </select>
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+
+    <!-- Summary Boxes -->
+    <div class="flex justify-center gap-8 mb-16 flex-wrap">
+      <div class="flex items-center gap-4 bg-white shadow-md rounded-md px-6 py-4 min-w-[160px]">
+        <i class="fas fa-list-ul text-2xl text-black"></i>
+        <div>
+          <p class="font-semibold text-black text-base">This Month</p>
+          <p class="text-sm text-[#e04c4c]" id="takenCount">4/31 Taken</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 bg-white shadow-md rounded-md px-6 py-4 min-w-[160px]">
+        <i class="fas fa-file-alt text-2xl text-black"></i>
+        <div>
+          <p class="font-semibold text-black text-base">Amount</p>
+          <p class="text-sm text-[#3db9c9]" id="amountPerDay">2 Pills/day</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <button
+    id="editScheduleBtn"
+    type="button"
+    onclick="goNextPage()"
+    class="w-full max-w-md mx-auto bg-gradient-to-r from-[#4f7f81] to-[#6a8a8c] text-white font-semibold text-xl rounded-xl py-4 mb-2"
+  >
+    Edit Schedule
+  </button>
+
+  <!-- Script -->
+  <script>
+    // Initial state
+    let selectedTime = 'Breakfast';
+
+    const btnBreakfast = document.getElementById('btnBreakfast');
+    const btnDinner = document.getElementById('btnDinner');
+    const bioInput = document.getElementById('bioInput');
+    const ringtoneSelect = document.getElementById('ringtoneSelect');
+
+    function selectTime(time) {
+      selectedTime = time;
+      if (time === 'Breakfast') {
+        btnBreakfast.classList.add('bg-[#b9e5f7]', 'text-[#1a4f8b]', 'font-semibold');
+        btnBreakfast.classList.remove('bg-[#8eaea3]', 'text-[#1a3a33]', 'font-normal');
+        btnDinner.classList.remove('bg-[#b9e5f7]', 'text-[#1a4f8b]', 'font-semibold');
+        btnDinner.classList.add('bg-[#8eaea3]', 'text-[#1a3a33]', 'font-normal');
+      } else {
+        btnDinner.classList.add('bg-[#b9e5f7]', 'text-[#1a4f8b]', 'font-semibold');
+        btnDinner.classList.remove('bg-[#8eaea3]', 'text-[#1a3a33]', 'font-normal');
+        btnBreakfast.classList.remove('bg-[#b9e5f7]', 'text-[#1a4f8b]', 'font-semibold');
+        btnBreakfast.classList.add('bg-[#8eaea3]', 'text-[#1a3a33]', 'font-normal');
+      }
+    }
+
+    function goNextPage() {
+      alert(`Bio: ${bioInput.value.trim() || '(empty)'}\nTime: ${selectedTime}\nRingtone: ${ringtoneSelect.value}`);
+      // Uncomment line below to enable actual navigation
+      // window.location.href = 'nextpage.html';
+    }
+
+    // Initialize
+    selectTime(selectedTime);
+
+    const reminderName = localStorage.getItem("editingReminder") || "Unknown";
+    document.querySelector("h1").innerText = reminderName;
+  </script>
+</body>
+</html>

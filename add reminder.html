@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>New Reminder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+    body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f0fbfc] min-h-screen flex flex-col justify-between">
+  <main class="px-6 pt-12 max-w-md mx-auto w-full">
+    <h1 class="text-2xl font-extrabold text-[#4a4a4a] text-center mb-6">
+      New Reminder
+    </h1>
+
+    <!-- Avatar -->
+    <div class="flex items-center justify-center mb-8 space-x-16">
+      <button
+        aria-label="Previous"
+        id="prevAvatar"
+        class="text-[#5a8a8a] text-3xl font-bold rotate-180 select-none"
+        style="line-height: 0.8"
+      >▶</button>
+      <img
+        alt="Illustration of a medicine bottle"
+        id="avatarImg"
+        class="w-20 h-20"
+        height="80"
+        src="https://placehold.co/80x80/png?text=Medicine+1"
+        width="80"
+      />
+      <button
+        aria-label="Next"
+        id="nextAvatar"
+        class="text-[#5a8a8a] text-3xl font-bold select-none"
+        style="line-height: 0.8"
+      >▶</button>
+    </div>
+
+    <!-- Medicine Name -->
+    <label class="block text-[#4a4a4a] font-semibold text-lg mb-2" for="medicine-name">
+      Medicine Name
+    </label>
+    <input
+      class="w-full rounded-md bg-[#eaf0f1] h-10 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-[#5a8a8a]"
+      id="medicine-name"
+      placeholder="Enter medicine name"
+      type="text"
+    />
+
+    <!-- Schedule Buttons -->
+    <div class="mb-4">
+      <p class="text-[#4a4a4a] font-semibold text-base mb-3">Time & Schedule</p>
+      <div class="flex flex-wrap gap-3 max-w-xs" id="scheduleButtons">
+        <button class="bg-[#a9d5e4] text-[#0f4a6f] font-semibold rounded-md px-4 py-2" data-value="After Breakfast" type="button">
+          After Breakfast
+        </button>
+        <button class="bg-[#8eaea7] text-[#2f4f4a] rounded-md px-4 py-2" data-value="After Dinner" type="button">
+          After Dinner
+        </button>
+        <button class="bg-[#7de0ff] text-[#004a6f] rounded-md px-4 py-2" data-value="Before Eat" type="button">
+          Before Eat
+        </button>
+        <button id="addScheduleBtn" class="ml-4 w-10 h-10 rounded-full bg-[#e3c6c6] text-[#d94f4f] text-2xl font-extrabold flex items-center justify-center select-none" type="button">
+          +
+        </button>
+      </div>
+    </div>
+
+    <!-- Duration & Frequency -->
+    <div class="flex justify-between mb-6 max-w-xs flex-wrap gap-4">
+      <div class="flex flex-col">
+        <label for="durationSelect" class="text-[#4a4a4a] font-semibold text-base mb-2">Duration</label>
+        <select id="durationSelect" class="bg-[#eaf0f1] rounded-md px-3 py-2 text-[#4a4a4a] text-sm font-normal cursor-pointer">
+          <option value="1 Month" selected>1 Month</option>
+          <option value="1 Week">1 Week</option>
+          <option value="2 Weeks">2 Weeks</option>
+          <option value="3 Months">3 Months</option>
+          <option value="6 Months">6 Months</option>
+        </select>
+      </div>
+      <div class="flex flex-col">
+        <label for="frequencyInput" class="text-[#4a4a4a] font-semibold text-base mb-2">Frequency</label>
+        <input id="frequencyInput" type="time" step="60" value="10:00" class="bg-[#eaf0f1] rounded-md px-3 py-2 text-[#4a4a4a] text-sm font-normal cursor-pointer w-28" />
+      </div>
+    </div>
+
+    <!-- Ringtone -->
+    <div class="flex justify-between items-center border-t border-[#d9d9d9] pt-3 max-w-xs">
+      <div class="flex items-center gap-2 text-[#000000] text-sm font-normal">
+        <i class="far fa-bell text-lg"></i>
+        <span>Ringtone</span>
+      </div>
+      <select id="ringtoneSelect" class="bg-transparent border-none focus:outline-none text-[#4a4a4a] text-sm font-normal cursor-pointer">
+        <option value="tictac" selected>Tictac</option>
+        <option value="beep">Beep</option>
+        <option value="chime">Chime</option>
+        <option value="alert">Alert</option>
+      </select>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="px-6 pb-8 max-w-md mx-auto w-full">
+    <button id="saveBtn" class="w-full bg-[#6b8b8b] text-[#d9d9d9] font-semibold text-xl rounded-xl py-4" type="button">
+      Add Reminder
+    </button>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    // Avatar logic
+    const avatars = [
+      "paracetamol.jpg",
+      "antibiotik.png"
+    ];
+    let currentAvatarIndex = 0;
+    const avatarImg = document.getElementById("avatarImg");
+
+    function updateAvatar() {
+      avatarImg.src = avatars[currentAvatarIndex];
+      avatarImg.alt = `Medicine image ${currentAvatarIndex + 1}`;
+    }
+
+    document.getElementById("prevAvatar").addEventListener("click", () => {
+      currentAvatarIndex = (currentAvatarIndex - 1 + avatars.length) % avatars.length;
+      updateAvatar();
+    });
+
+    document.getElementById("nextAvatar").addEventListener("click", () => {
+      currentAvatarIndex = (currentAvatarIndex + 1) % avatars.length;
+      updateAvatar();
+    });
+
+    updateAvatar();
+
+    // Schedule button logic
+    const scheduleButtonsContainer = document.getElementById("scheduleButtons");
+    const addScheduleBtn = document.getElementById("addScheduleBtn");
+
+    function createScheduleButton(text) {
+      const btn = document.createElement("button");
+      btn.textContent = text;
+      btn.dataset.value = text;
+      btn.type = "button";
+      btn.className = "bg-[#8eaea7] text-[#2f4f4a] rounded-md px-4 py-2";
+      btn.addEventListener("click", () => {
+        Array.from(scheduleButtonsContainer.querySelectorAll("button:not(#addScheduleBtn)")).forEach(b => {
+          b.className = "bg-[#8eaea7] text-[#2f4f4a] rounded-md px-4 py-2";
+        });
+        btn.className = "bg-[#a9d5e4] text-[#0f4a6f] font-semibold rounded-md px-4 py-2";
+      });
+      return btn;
+    }
+
+    Array.from(scheduleButtonsContainer.querySelectorAll("button:not(#addScheduleBtn)")).forEach(btn => {
+      btn.addEventListener("click", () => {
+        Array.from(scheduleButtonsContainer.querySelectorAll("button:not(#addScheduleBtn)")).forEach(b => {
+          b.className = "bg-[#8eaea7] text-[#2f4f4a] rounded-md px-4 py-2";
+        });
+        btn.className = "bg-[#a9d5e4] text-[#0f4a6f] font-semibold rounded-md px-4 py-2";
+      });
+    });
+
+    addScheduleBtn.addEventListener("click", () => {
+      const input = prompt("Add new time & schedule option:", "After Lunch");
+      if (!input || input.trim() === "") return;
+      const exists = Array.from(scheduleButtonsContainer.querySelectorAll("button:not(#addScheduleBtn)")).some(
+        btn => btn.textContent.toLowerCase() === input.trim().toLowerCase()
+      );
+      if (exists) {
+        alert("This option already exists.");
+        return;
+      }
+      const newBtn = createScheduleButton(input.trim());
+      scheduleButtonsContainer.insertBefore(newBtn, addScheduleBtn);
+    });
+
+    // Ringtone preview
+    const ringtoneMap = {
+      tictac: "https://actions.google.com/sounds/v1/alarms/clock_tick.ogg",
+      beep: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg",
+      chime: "https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg",
+      alert: "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg",
+    };
+
+    const ringtoneSelect = document.getElementById("ringtoneSelect");
+    let currentAudio = null;
+
+    ringtoneSelect.addEventListener("change", () => {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      const selected = ringtoneSelect.value;
+      if (ringtoneMap[selected]) {
+        currentAudio = new Audio(ringtoneMap[selected]);
+        currentAudio.play();
+      }
+    });
+
+    // Save button
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      const medicineName = document.getElementById("medicine-name").value.trim();
+      const selectedSchedule = Array.from(scheduleButtonsContainer.querySelectorAll("button:not(#addScheduleBtn)")).find(
+        btn => btn.classList.contains("font-semibold")
+      )?.dataset.value;
+      const duration = document.getElementById("durationSelect").value;
+      const frequency = document.getElementById("frequencyInput").value;
+      const ringtone = document.getElementById("ringtoneSelect").value;
+
+      if (!medicineName || !selectedSchedule) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      // Simulate save
+      console.log("Reminder Saved:");
+      console.log({ medicineName, avatar: avatars[currentAvatarIndex], selectedSchedule, duration, frequency, ringtone });
+      alert("Reminder saved successfully!");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page - AI Health</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1fefb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h2 {
+      color: #047d64;
+    }
+
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Login to NeuroMed</h2>
+  <form id="loginForm">
+    <input type="text" id="name" placeholder="Enter your name" required />
+    <input type="password" id="password" placeholder="Enter your password" required />
+    <button type="submit">Log In</button>
+    <div class="message" id="messageBox"></div>
+  </form>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+      const messageBox = document.getElementById('messageBox');
+
+      // Cek sederhana untuk validasi dummy
+      if (name && password) {
+        messageBox.textContent = `Welcome, ${name}!`;
+        messageBox.style.color = 'green';
+        document.getElementById('loginForm').reset();
+      } else {
+        messageBox.textContent = "Name and password required.";
+        messageBox.style.color = 'red';
+      }
+
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const password = document.getElementById('password').value;
+    const messageBox = document.getElementById('messageBox');
+
+    if (name && password) {
+      // Simpan nama pengguna ke localStorage (opsional)
+      localStorage.setItem('username', name);
+      
+      // Redirect ke index.html
+      window.location.href = "index.html";
+    } else {
+      messageBox.textContent = "Name and password required.";
+      messageBox.style.color = 'red';
+    }
+  });
+    });
+  </script>
+
+</body>
+</html>
